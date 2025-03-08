@@ -52,9 +52,7 @@ class HomePage extends StatelessWidget {
             Container(
               height: 500,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppPalette.gradient2, AppPalette.gradient3],
-                ),
+                color: AppPalette.secondaryBackgroundColor,
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: Container(),
@@ -78,7 +76,7 @@ class HomePage extends StatelessWidget {
           title: Text(
             localeManager.translate('addProcessTitle'),
             style: AppTextTheme.loraTextTheme.headlineSmall!.copyWith(
-              color: AppPalette.blackColor,
+              color: AppPalette.primaryTextColor,
             ),
           ),
           content: ProcessField(

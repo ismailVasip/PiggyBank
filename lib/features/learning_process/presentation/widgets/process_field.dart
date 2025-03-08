@@ -22,7 +22,7 @@ class ProcessField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(hintText: hintText),
       style: AppTextTheme.loraTextTheme.bodyMedium!.copyWith(
-        color: AppPalette.blackColor,
+        color: AppPalette.primaryTextColor,
       ),
       validator: (value) {
         if (value!.isEmpty) {

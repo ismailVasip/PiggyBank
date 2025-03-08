@@ -14,7 +14,7 @@ class ProcessButton extends StatelessWidget {
       child: Text(
         text
         ,style: AppTextTheme.loraTextTheme.bodyMedium!.copyWith(
-          color: AppPalette.blackColor
+          color: AppPalette.primaryTextColor
         ),
       ),
     );

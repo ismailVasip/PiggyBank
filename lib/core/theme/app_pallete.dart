@@ -1,26 +1,39 @@
 import 'package:flutter/material.dart';
 
 class AppPalette {
-  // Arka plan rengi: Sakin ve odaklanmayı artıran koyu bir renk
-  static const Color backgroundColor = Color.fromRGBO(28, 28, 36, 1); // Koyu gri-mavi
+  // **Arka Plan Renkleri (Odaklanmayı Artıran)**
+  static const Color backgroundColor = Color(0xFF1C1E26); // Koyu lacivert-gri (göz yormayan, odak artıran)
+  static const Color secondaryBackgroundColor = Color(0xFF2A2D37); // Hafif açık versiyonu (katmanlı yapı için)
 
-  // Gradyan renkleri: Enerjik ama rahatsız etmeyen renkler
-  static const Color gradient1 = Color.fromRGBO(100, 145, 230, 1); // Mavi (sakinlik ve güven)
-  static const Color gradient2 = Color.fromRGBO(140, 200, 240, 1); // Açık mavi (öğrenmeyi destekler)
-  static const Color gradient3 = Color.fromRGBO(255, 200, 150, 1); // Pastel turuncu (yaratıcılık ve motivasyon)
+  // **Kart Renkleri (Bilgi Kutuları)**
+  static const Color cardColor = Color(0xFFF6F8FC); // Açık pastel mavi (rahatlatıcı ve okunaklı)
+  static const Color cardBorderColor = Color(0xFFB6C7D6); // Hafif mavi-gri ton (daha yumuşak geçiş)
 
-  // Kenarlık rengi: Arka planla uyumlu, düşük kontrastlı bir renk
-  static const Color borderColor = Color.fromRGBO(52, 51, 67, 1); // Koyu gri
+  // **Metin Renkleri**
+  static const Color primaryTextColor = Color(0xFF101820); // Lacivertimsi siyah (yüksek kontrast ve okunabilirlik)
+  static const Color secondaryTextColor = Color(0xFF4A5568); // Açık gri-mavi (ikincil metinler için)
+  static const Color whiteColor = Colors.white; 
+  static const Color blackColor = Colors.black; 
 
-  // Metin ve arayüz renkleri
-  static const Color whiteColor = Colors.white; // Beyaz (okunabilirlik için)
-  static const Color blackColor = Colors.black;
-  static const Color greyColor = Colors.grey; // Gri (ikincil metinler için)
-  static const Color errorColor = Color.fromRGBO(255, 100, 100, 1); // Yumuşak kırmızı (hata mesajları için)
-  static const Color transparentColor = Colors.transparent; // Şeffaf renk
+  // **Gradyanlar (Enerji & Öğrenme Desteği)**
+  static const Color gradient1 = Color(0xFF6AC5E6); // Canlandırıcı açık mavi
+  static const Color gradient2 = Color(0xFFFFD166); // Hafif sıcak sarı (dikkati artırır)
+  static const Color gradient3 = Color(0xFFFD8A8A); // Pastel kırmızımsı turuncu (motivasyon artırır)
 
-  // Ekstra renkler: Öğrenme sürecini destekleyecek renkler
-  static const Color successColor = Color.fromRGBO(100, 200, 100, 1); // Yeşil (başarı ve olumlu geri bildirim)
-  static const Color warningColor = Color.fromRGBO(255, 200, 100, 1); // Sarı (uyarılar için)
-  static const Color accentColor = Color.fromRGBO(100, 145, 230, 1); // Mavi (ana aksan rengi)
+  // **Liste & Kart İçeriği için Arka Planlar**
+  static const Color listTileColor = Color(0xFFF4F4F8); // Hafif pastel gri-mavi (sakinleştirici)
+  static const Color listTileBorderColor = Color(0xFFD6DDEB); // Soft mavi-gri kenarlıklar
+
+  // **Buton Renkleri**
+  static const Color buttonColor = Color(0xFF5E81AC); // Hafif koyu mavi (güven veren)
+  static const Color buttonTextColor = Colors.white; // Beyaz (yüksek kontrast)
+  static const Color buttonBorderColor = Color(0xFF5178A3); // Hafif koyu mavi
+
+  // **Durum Renkleri**
+  static const Color successColor = Color(0xFF6FCF97); // Açık yeşil (başarı ve olumlu geri bildirim)
+  static const Color warningColor = Color(0xFFFFC75F); // Yumuşak turuncu (uyarılar için)
+  static const Color errorColor = Color(0xFFE57373); // Pastel kırmızı (hata mesajları)
+
+  // **Şeffaf Renkler**
+  static const Color transparentColor = Colors.transparent;
 }

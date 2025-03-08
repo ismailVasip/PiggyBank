@@ -50,7 +50,7 @@ class Settings extends StatelessWidget {
                 DropdownMenuItem(value: Locale('en'), child: Text('English')),
                 DropdownMenuItem(value: Locale('tr'), child: Text('Türkçe')),
               ],
-              dropdownColor: AppPalette.borderColor,
+              dropdownColor: AppPalette.secondaryBackgroundColor,
              ),
           ],
         ),

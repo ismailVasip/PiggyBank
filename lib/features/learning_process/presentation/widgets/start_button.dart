@@ -30,7 +30,7 @@ class StartButton extends StatelessWidget {
                   onPressed:showAlertDialog,
                   child: Text(
                     text,
-                    style: AppTextTheme.loraTextTheme.headlineMedium!.copyWith(color: AppPalette.backgroundColor),
+                    style: AppTextTheme.loraTextTheme.headlineMedium!.copyWith(color: AppPalette.primaryTextColor),
                   ),
                 ),
               ),
