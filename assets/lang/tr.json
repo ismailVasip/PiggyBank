@@ -1,0 +1,12 @@
+{
+  "title": "Hoşgeldiniz",
+  "settings": "Ayarlar",
+  "language": "Dil",
+  "headline": "Öğrenme Süreçlerim",
+  "start": "Başla",
+  "addProcessTitle":"Yeni Bir Süreç Başlat",
+  "missing":"girilmedi",
+  "addProcessFieldHintText":"Başlık yazınız",
+  "save":"Kaydet",
+  "close":"Vazgeç"
+}

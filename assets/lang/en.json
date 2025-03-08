@@ -1,0 +1,12 @@
+{
+  "title": "Welcome",
+  "settings": "Settings",
+  "language": "Language",
+  "headline": "My Learning Processes",
+  "start": "Start",
+  "addProcessTitle": "Start a New Process",
+  "missing": "is missing",
+  "addProcessFieldHintText":"Type a title",
+  "save":"Save",
+  "close":"Close"
+}
