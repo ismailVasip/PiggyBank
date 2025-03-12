@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:piggy_bank/core/localization/locale_manager.dart";
 import "package:piggy_bank/core/theme/app_pallete.dart";
 import "package:piggy_bank/core/theme/app_text_theme.dart";
+import "package:piggy_bank/features/learning_process/presentation/pages/learning_process_page.dart";
 import "package:piggy_bank/features/learning_process/presentation/pages/settings.dart";
 import "package:piggy_bank/features/learning_process/presentation/widgets/process_button.dart";
 import "package:piggy_bank/features/learning_process/presentation/widgets/process_field.dart";
@@ -51,11 +52,21 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 16),
             Container(
               height: 500,
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: AppPalette.secondaryBackgroundColor,
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              child: Container(),
+              child: SizedBox(
+                height: 40,
+                width: 40,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, LearningProcessPage.route());
+                  },
+                  child: Text("gittttttt"),
+                ),
+              ),
             ),
           ],
         ),

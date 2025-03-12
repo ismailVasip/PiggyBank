@@ -19,6 +19,16 @@ class AppPalette {
   static const Color gradient1 = Color(0xFF6AC5E6); // Canlandırıcı açık mavi
   static const Color gradient2 = Color(0xFFFFD166); // Hafif sıcak sarı (dikkati artırır)
   static const Color gradient3 = Color(0xFFFD8A8A); // Pastel kırmızımsı turuncu (motivasyon artırır)
+  static const Color gradient4 = Color(0xFFA29BFE); // Hafif mor (Yaratıcılığı artırır)
+  static const Color gradient5 = Color(0xFFFFA69E); // Sıcak pembe (İlgi çekici, enerjik)
+  static const Color gradient6 = Color(0xFFFFC75F); // Canlı turuncu (Öğrenme isteğini artırır)
+  static const Color gradient7 = Color(0xFF6A0572); // Derin mor (Odaklanmayı teşvik eder)
+  static const Color gradient8 = Color(0xFF3A86FF); // Canlı mavi (Bilişsel yetileri destekler)
+  static const Color gradient9 = Color(0xFF28CC9E); // Nane yeşili (Dingin ama motive edici)
+  static const Color gradient10 = Color(0xFFD72638); // Koyu kırmızı (Kararlılığı ve enerjiyi artırır)
+  static const Color gradient11 = Color(0xFF06D6A0); // Açık yeşil (Zihinsel rahatlık sağlar)
+  static const Color gradient12 = Color(0xFF8338EC); // Elektrik moru (Yaratıcılığı tetikler)
+  static const Color gradient13 = Color(0xFFFFB5A7); // Pastel turuncu (Sıcaklık ve güven hissi verir)
 
   // **Liste & Kart İçeriği için Arka Planlar**
   static const Color listTileColor = Color(0xFFF4F4F8); // Hafif pastel gri-mavi (sakinleştirici)

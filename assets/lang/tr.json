@@ -8,5 +8,15 @@
   "missing":"girilmedi",
   "addProcessFieldHintText":"Başlık yazınız",
   "save":"Kaydet",
-  "close":"Vazgeç"
+  "close":"Vazgeç",
+  "InfoBoxWordPoolTitle":"Kelime Havuzu",
+  "InfoBoxMyPiggyBankTitle":"Kumbaram",
+  "InfoBoxLastAddedText":"Son Eklenen : ",
+  "InfoBoxCountOfWordsText":"Kelime Sayısı : ",
+  "AddTheWordButton":"Ekle",
+  "AddWordFieldNecessaryText1":"Kelimeyi yazınız",
+  "AddWordFieldNecessaryText2":"Anlamı",
+  "AddWordFieldOptionalText1":"Sözcük türü",
+  "AddWordFieldOptionalText2":"Eş anlamı",
+  "AddWordFieldAddSentences" : "Cümle yazma alanı"
 }

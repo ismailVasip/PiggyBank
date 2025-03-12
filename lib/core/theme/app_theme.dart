@@ -13,7 +13,10 @@ class AppTheme {
   static final themeMode = ThemeData.light().copyWith(
     scaffoldBackgroundColor: AppPalette.backgroundColor,
     textTheme: AppTextTheme.loraTextTheme,
-    appBarTheme: AppBarTheme(backgroundColor: AppPalette.backgroundColor),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppPalette.backgroundColor,
+      foregroundColor: AppPalette.whiteColor
+    ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(17.0),
       enabledBorder: _border(),

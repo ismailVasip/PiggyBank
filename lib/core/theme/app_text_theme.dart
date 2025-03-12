@@ -24,4 +24,12 @@ class AppTextTheme {
       color: AppPalette.whiteColor
     );
   }
+  static TextStyle get addWordButtonText {
+    return const TextStyle(
+      fontFamily: 'Lora',
+      fontSize: 24,
+      shadows: [Shadow(color: AppPalette.whiteColor,blurRadius: 4)],
+      color: AppPalette.gradient2
+    );
+  }
 }

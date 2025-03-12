@@ -8,5 +8,15 @@
   "missing": "is missing",
   "addProcessFieldHintText":"Type a title",
   "save":"Save",
-  "close":"Close"
+  "close":"Close",
+  "InfoBoxWordPoolTitle":"Word Pool",
+  "InfoBoxMyPiggyBankTitle":"My Piggy Bank",
+  "InfoBoxLastAddedText":"Last Added : ",
+  "InfoBoxCountOfWordsText":"Count Of Words : ",
+  "AddTheWordButton":"Add",
+  "AddWordFieldNecessaryText1":"Type the word",
+  "AddWordFieldNecessaryText2":"Type the meaning",
+  "AddWordFieldOptionalText1":"Word Type",
+  "AddWordFieldOptionalText2":"Synonym",
+  "AddWordFieldAddSentences" : "Sentence writing area"
 }
