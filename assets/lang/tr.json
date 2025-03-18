@@ -18,5 +18,7 @@
   "AddWordFieldNecessaryText2":"Anlamı",
   "AddWordFieldOptionalText1":"Sözcük türü",
   "AddWordFieldOptionalText2":"Eş anlamı",
-  "AddWordFieldAddSentences" : "Cümle yazma alanı"
+  "AddWordFieldAddSentences" : "Cümle yazma alanı",
+  "AddWordErrorMessage":"Bu alan girilmelidir!",
+  "SnackbarMessageAddedToWordPool":"Kelime Havuzuna eklendi!"
 }

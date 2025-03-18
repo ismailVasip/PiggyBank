@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/theme/app_theme.dart';
+import 'package:piggy_bank/features/learning_process/presentation/bloc/wordpool_bloc_bloc.dart';
 import 'package:piggy_bank/features/learning_process/presentation/pages/home_page.dart';
+import 'package:piggy_bank/init_dependencies.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies();
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => serviceLocator<WordpoolBlocBloc>(),
+      )
+    ],
+    child: const MyApp(),)
+  );
 }
 
 class MyApp extends StatelessWidget {

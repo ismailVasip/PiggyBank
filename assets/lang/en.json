@@ -18,5 +18,7 @@
   "AddWordFieldNecessaryText2":"Type the meaning",
   "AddWordFieldOptionalText1":"Word Type",
   "AddWordFieldOptionalText2":"Synonym",
-  "AddWordFieldAddSentences" : "Sentence writing area"
+  "AddWordFieldAddSentences" : "Sentence writing area",
+  "AddWordErrorMessage":"This field is required!",
+  "SnackbarMessageAddedToWordPool":"added to Word Pool!"
 }

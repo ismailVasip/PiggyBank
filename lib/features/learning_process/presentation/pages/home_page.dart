@@ -18,57 +18,59 @@ class HomePage extends StatelessWidget {
     final localeManager = Provider.of<LocaleManager>(context);
     final fieldController = TextEditingController();
     
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          localeManager.translate('title'),
-          style: AppTextTheme.appBarTitle,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, Settings.route());
-            },
-            icon: Icon(Icons.settings, color: AppPalette.whiteColor, size: 27),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            localeManager.translate('title'),
+            style: AppTextTheme.appBarTitle,
           ),
-        ],
-      ),
-      body: Container(
-        margin: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            StartButton(
-              text: localeManager.translate('start'),
-              showAlertDialog: (){
-                showAlertDialog(context,localeManager,fieldController);
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(context, Settings.route());
               },
-            ),
-            const SizedBox(height: 16),
-            Text(
-              localeManager.translate('headline'),
-              style: AppTextTheme.loraTextTheme.headlineMedium,
-            ),
-            const SizedBox(height: 16),
-            Container(
-              height: 500,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppPalette.secondaryBackgroundColor,
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: SizedBox(
-                height: 40,
-                width: 40,
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, LearningProcessPage.route());
-                  },
-                  child: Text("gittttttt"),
-                ),
-              ),
+              icon: Icon(Icons.settings, color: AppPalette.whiteColor, size: 27),
             ),
           ],
+        ),
+        body: Container(
+          margin: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              StartButton(
+                text: localeManager.translate('start'),
+                showAlertDialog: (){
+                  showAlertDialog(context,localeManager,fieldController);
+                },
+              ),
+              const SizedBox(height: 16),
+              Text(
+                localeManager.translate('headline'),
+                style: AppTextTheme.loraTextTheme.headlineMedium,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                height: 500,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppPalette.secondaryBackgroundColor,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, LearningProcessPage.route());
+                    },
+                    child: Text("gittttttt"),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
