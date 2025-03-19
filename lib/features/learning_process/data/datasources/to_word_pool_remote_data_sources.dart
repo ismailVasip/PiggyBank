@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract interface class WordPoolRemoteDataSource{
   Future<WordPoolModel> uploadToWordPool(WordPoolModel wordPoolModel);
 }
+
 class WordPoolRemoteDataSourceImp implements WordPoolRemoteDataSource{
   final SupabaseClient supabaseClient;
   WordPoolRemoteDataSourceImp(this.supabaseClient);
@@ -23,5 +24,4 @@ class WordPoolRemoteDataSourceImp implements WordPoolRemoteDataSource{
        }
     
   }
-
 }

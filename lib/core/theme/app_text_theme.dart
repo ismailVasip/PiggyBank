@@ -32,4 +32,11 @@ class AppTextTheme {
       color: AppPalette.gradient2
     );
   }
+  static TextStyle get learningProcessTitleText {
+    return const TextStyle(
+      fontFamily: 'Lora',
+      fontSize: 27,
+      color: AppPalette.whiteColor
+    );
+  }
 }
