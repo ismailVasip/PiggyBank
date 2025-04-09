@@ -20,5 +20,8 @@
   "AddWordFieldOptionalText2":"Eş anlamı",
   "AddWordFieldAddSentences" : "Cümle yazma alanı",
   "AddWordErrorMessage":"Bu alan girilmelidir!",
-  "SnackbarMessageAddedToWordPool":"Kelime Havuzuna eklendi!"
+  "SnackbarMessageAddedToWordPool":"Kelime Havuzuna eklendi!",
+  "EmptyLearningProcessListText":"Daha başlamadın mı?",
+  "DataLoadingText":"Veri yükleniyor...",
+  "UnexpectedSituationText":"Beklenmedik durum."
 }

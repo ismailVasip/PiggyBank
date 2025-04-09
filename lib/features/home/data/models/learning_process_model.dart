@@ -1,4 +1,4 @@
-import 'package:piggy_bank/features/learning_process/domain/entities/learning_process.dart';
+import 'package:piggy_bank/features/home/domain/entities/learning_process.dart';
 
 class LearningProcessModel extends LearningProcess {
   LearningProcessModel({

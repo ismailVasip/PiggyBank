@@ -35,7 +35,7 @@ class AppTextTheme {
   static TextStyle get learningProcessTitleText {
     return const TextStyle(
       fontFamily: 'Lora',
-      fontSize: 27,
+      fontSize: 21,
       color: AppPalette.whiteColor
     );
   }
