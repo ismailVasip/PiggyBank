@@ -16,6 +16,8 @@ class UploadToWordPool implements UseCase<WordPool, UploadToWordPoolParams> {
       type: params.type,
       synonym: params.synonym,
       sentence: params.sentence,
+      learningProcessId: params.learningProcessId,
+      isItLearned: params.isItLearned
     );
   }
 }
@@ -26,6 +28,8 @@ class UploadToWordPoolParams {
   final String type;
   final String synonym;
   final String sentence;
+  final String learningProcessId;
+  final bool isItLearned;
 
   UploadToWordPoolParams({
     required this.word,
@@ -33,5 +37,7 @@ class UploadToWordPoolParams {
     required this.type,
     required this.synonym,
     required this.sentence,
+    required this.learningProcessId,
+    required this.isItLearned
   });
 }

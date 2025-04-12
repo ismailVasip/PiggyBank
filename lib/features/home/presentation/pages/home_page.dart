@@ -142,6 +142,7 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder: (context, index) {
                                         return ListItem(
                                           title: learningProcesses[index].title,
+                                          id:learningProcesses[index].id
                                         );
                                       },
                                     );

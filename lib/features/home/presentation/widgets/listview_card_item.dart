@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:piggy_bank/core/theme/app_pallete.dart';
 import 'package:piggy_bank/core/theme/app_text_theme.dart';
 import 'package:piggy_bank/core/utils/capitalize_title.dart';
+import 'package:piggy_bank/features/learning_process/presentation/pages/learning_process_page.dart';
 
 class ListItem extends StatelessWidget {
-  const ListItem({super.key,required this.title});
+  const ListItem({super.key, required this.title, required this.id});
   final String title;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,14 @@ class ListItem extends StatelessWidget {
           size: 21,
           color: AppPalette.whiteColor,
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LearningProcessPage(id: id, title: title),
+            ),
+          );
+        },
       ),
     );
   }

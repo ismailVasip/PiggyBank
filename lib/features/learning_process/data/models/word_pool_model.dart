@@ -9,6 +9,8 @@ class WordPoolModel extends WordPool {
     required super.synonym,
     required super.sentence,
     required super.updatedAt,
+    required super.learningProccessId,
+    required super.isItLearned
   });
 
   
@@ -21,6 +23,8 @@ class WordPoolModel extends WordPool {
       'synonym': synonym,
       'sentence': sentence,
       'updated_at': updatedAt.toIso8601String(),
+      'learning_process_id':learningProccessId,
+      'is_it_learned':isItLearned
     };
   }
 
@@ -35,6 +39,8 @@ class WordPoolModel extends WordPool {
       updatedAt: map['updated_at'] == null ?
        DateTime.parse(map['updated_at'])
        :DateTime.now() ,
-    );
+      learningProccessId: map['learning_process_id'] as String,
+      isItLearned:map['is_it_learned'] as bool
+    ); 
   }
 }

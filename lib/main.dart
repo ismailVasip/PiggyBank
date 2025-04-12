@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/theme/app_theme.dart';
 import 'package:piggy_bank/features/home/presentation/bloc/home_bloc.dart';
-import 'package:piggy_bank/features/learning_process/presentation/bloc/wordpool_bloc_bloc.dart';
+import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
 import 'package:piggy_bank/features/home/presentation/pages/home_page.dart';
 import 'package:piggy_bank/init_dependencies.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ void main() async{
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (_) => serviceLocator<WordpoolBlocBloc>(),
+        create: (_) => serviceLocator<LearningProcessBloc>(),
       ),
       BlocProvider(
         create: (_) => serviceLocator<HomeBloc>(),

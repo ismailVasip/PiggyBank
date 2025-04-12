@@ -4,7 +4,7 @@ import 'package:piggy_bank/core/error/failures.dart';
 import 'package:piggy_bank/features/home/data/datasources/create_learning_process_remote_date_source.dart';
 import 'package:piggy_bank/features/home/data/models/learning_process_model.dart';
 import 'package:piggy_bank/features/home/domain/entities/learning_process.dart';
-import 'package:piggy_bank/features/home/data/repositories/learning_process_repo.dart';
+import 'package:piggy_bank/features/home/domain/repositories/learning_process_repo.dart';
 import 'package:uuid/uuid.dart';
 
 class LearningProcessRepoImp implements LearningProcessRepo {

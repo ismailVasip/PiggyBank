@@ -8,6 +8,12 @@ abstract interface class WordPoolRepo {
     required String meaning,
     required String type,
     required String synonym,
-    required String sentence
+    required String sentence,
+    required String learningProcessId,
+    required bool isItLearned
   });
+
+  Future<Either<Failure,List<WordPool>>> fetchAllWords(String learningProcessId);
+
+  Future<Either<Failure,(String?,int)>> fetchLearningProcessSummary(String processId,bool isItLearned);
 }

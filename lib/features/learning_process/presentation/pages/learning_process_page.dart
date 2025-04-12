@@ -1,19 +1,21 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:piggy_bank/core/common/widgets/loader.dart';
+import 'package:piggy_bank/core/error/status_message.dart';
 import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/theme/app_pallete.dart';
 import 'package:piggy_bank/core/theme/app_text_theme.dart';
+import 'package:piggy_bank/core/utils/capitalize_title.dart';
 import 'package:piggy_bank/core/utils/show_snackbar.dart';
-import 'package:piggy_bank/features/learning_process/presentation/bloc/wordpool_bloc_bloc.dart';
+import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
+import 'package:piggy_bank/features/learning_process/presentation/widgets/info_box.dart';
 import 'package:provider/provider.dart';
 
 class LearningProcessPage extends StatefulWidget {
-  static route() =>
-      MaterialPageRoute(builder: (context) => LearningProcessPage());
+  final String id;
+  final String title;
 
-  const LearningProcessPage({super.key});
+  const LearningProcessPage({super.key, required this.id, required this.title});
 
   @override
   State<LearningProcessPage> createState() => _LearningProcessPageState();
@@ -25,6 +27,22 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
   final typeController = TextEditingController();
   final synonymController = TextEditingController();
   final sentenceController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+
+  final piggyBankImagePath = 'assets/icons/piggy-bank.png';
+  final wordPoolImagePath = 'assets/icons/brainstorm.png';
+
+  @override
+  void initState() {
+    context.read<LearningProcessBloc>().add(
+      LoadLearningProcessSummary(widget.id, false),
+    );
+    context.read<LearningProcessBloc>().add(
+      LoadLearningProcessSummary(widget.id, true),
+    );
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -39,12 +57,13 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
   @override
   Widget build(BuildContext context) {
     final localeManager = Provider.of<LocaleManager>(context);
-    final formKey = GlobalKey<FormState>();
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          scrolledUnderElevation: 0,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -55,106 +74,178 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
               color: AppPalette.whiteColor,
             ),
           ),
-          title: Text('Title', style: AppTextTheme.appBarTitle),
+          title: Text(
+            capitalizeTitle(widget.title),
+            style: AppTextTheme.appBarTitle,
+          ),
         ),
-        body: BlocConsumer<WordpoolBlocBloc, WordpoolBlocState>(
-          listener: (context, state) {
-            if (state is WordpoolBlocFailure) {
-              showSnackBar(context, state.error);
-            } else if (state is WordpoolBlocSuccess) {
-              showSnackBar(
-                context,
-                localeManager.translate('SnackbarMessageAddedToWordPool'),
-              );
-            }
-          },
-          builder: (context, state) {
-            if(state is WordpoolBlocLoading){
-              return const Loader();
-            }
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 14),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InfoBox(
-                          header: localeManager.translate(
-                            'InfoBoxMyPiggyBankTitle',
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BlocBuilder<LearningProcessBloc, LearningProcessState>(
+                        buildWhen:
+                            (previous, current) =>
+                                current is PiggyBankSummaryLoaded,
+                        builder: (context, state) {
+                          switch (state) {
+                            case LearningProcessLoading():
+                              return Expanded(
+                                child: SizedBox(
+                                  height: 150,
+                                  child: const Loader(),
+                                ),
+                              );
+                            case PiggyBankSummaryLoaded(
+                              :final lastAddedWord,
+                              :final wordCount,
+                            ):
+                              return Expanded(
+                                child: InfoBox(
+                                  header: localeManager.translate(
+                                    'InfoBoxMyPiggyBankTitle',
+                                  ),
+                                  lastAddedWord: lastAddedWord ?? '',
+                                  wordCount: wordCount.toString(),
+                                  colorCode: '0',
+                                  imagePath: piggyBankImagePath,
+                                ),
+                              );
+                            default:
+                              return StatusMessage(
+                                message: localeManager.translate(
+                                  'UnexpectedSituationText',
+                                ),
+                              );
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 16),
+                      BlocBuilder<LearningProcessBloc, LearningProcessState>(
+                        buildWhen:
+                            (previous, current) =>
+                                current is WordPoolSummaryLoaded,
+                        builder: (context, state) {
+                          switch (state) {
+                            case LearningProcessLoading():
+                              return Expanded(
+                                child: SizedBox(
+                                  height: 150,
+                                  child: const Loader(),
+                                ),
+                              );
+                            case WordPoolSummaryLoaded(
+                              :final lastAddedWord,
+                              :final wordCount,
+                            ):
+                              return Expanded(
+                                child: InfoBox(
+                                  header: localeManager.translate(
+                                    'InfoBoxWordPoolTitle',
+                                  ),
+                                  lastAddedWord: lastAddedWord ?? '',
+                                  wordCount: wordCount.toString(),
+                                  colorCode: '1',
+                                  imagePath: wordPoolImagePath,
+                                ),
+                              );
+                            default:
+                              return StatusMessage(
+                                message: localeManager.translate(
+                                  'UnexpectedSituationText',
+                                ),
+                              );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  BlocListener<LearningProcessBloc, LearningProcessState>(
+                    listener: (context, state) {
+                      if (state is LearningProcessFailure) {
+                        showSnackBar(context, state.error);
+                      } else if (state is LearningProcessSuccess) {
+                        showSnackBar(
+                          context,
+                          localeManager.translate(
+                            'SnackbarMessageAddedToWordPool',
                           ),
+                        );
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<LearningProcessBloc>().add(
+                                LearningProcessWordAdded(
+                                  word: wordController.text.trim(),
+                                  meaning: meaningController.text.trim(),
+                                  type: typeController.text.trim(),
+                                  synonym: synonymController.text.trim(),
+                                  sentence: sentenceController.text.trim(),
+                                  learningProcessId: widget.id,
+                                  isItLearned: false,
+                                ),
+                              );
+                              formKey.currentState!.reset();
+                            }
+                          },
+                          child: AddToPoolButton(localeManager: localeManager),
                         ),
-                        InfoBox(
-                          header: localeManager.translate(
-                            'InfoBoxWordPoolTitle',
+                        const SizedBox(height: 24),
+                        AddWordField(
+                          necessaryText: localeManager.translate(
+                            'AddWordFieldNecessaryText1',
+                          ),
+                          optionalText: localeManager.translate(
+                            'AddWordFieldOptionalText1',
+                          ),
+                          localeManager: localeManager,
+                          necessaryTextcontroller: wordController,
+                          optionalTextcontroller: typeController,
+                        ),
+                        const SizedBox(height: 14),
+                        AddWordField(
+                          necessaryText: localeManager.translate(
+                            'AddWordFieldNecessaryText2',
+                          ),
+                          optionalText: localeManager.translate(
+                            'AddWordFieldOptionalText2',
+                          ),
+                          localeManager: localeManager,
+                          necessaryTextcontroller: meaningController,
+                          optionalTextcontroller: synonymController,
+                        ),
+                        const SizedBox(height: 24),
+                        TextFormField(
+                          controller: sentenceController,
+                          maxLength: 100,
+                          minLines: 10,
+                          maxLines: 10,
+                          decoration: InputDecoration(
+                            hintText: localeManager.translate(
+                              'AddWordFieldAddSentences',
+                            ),
+                            hintStyle: TextStyle(color: AppPalette.whiteColor),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    GestureDetector(
-                      onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          context.read<WordpoolBlocBloc>().add(
-                            ToWordPoolUpload(
-                              word: wordController.text.trim(),
-                              meaning: meaningController.text.trim(),
-                              type: typeController.text.trim(),
-                              synonym: synonymController.text.trim(),
-                              sentence: synonymController.text.trim(),
-                            ),
-                          );
-                          formKey.currentState!.reset();
-                        }
-                      },
-                      child: AddToPoolButton(localeManager: localeManager),
-                    ),
-                    const SizedBox(height: 24),
-                    AddWordField(
-                      necessaryText: localeManager.translate(
-                        'AddWordFieldNecessaryText1',
-                      ),
-                      optionalText: localeManager.translate(
-                        'AddWordFieldOptionalText1',
-                      ),
-                      localeManager: localeManager,
-                      necessaryTextcontroller: wordController,
-                      optionalTextcontroller: typeController,
-                    ),
-                    const SizedBox(height: 14),
-                    AddWordField(
-                      necessaryText: localeManager.translate(
-                        'AddWordFieldNecessaryText2',
-                      ),
-                      optionalText: localeManager.translate(
-                        'AddWordFieldOptionalText2',
-                      ),
-                      localeManager: localeManager,
-                      necessaryTextcontroller: meaningController,
-                      optionalTextcontroller: synonymController,
-                    ),
-                    const SizedBox(height: 24),
-                    Expanded(
-                      child: TextFormField(
-                        controller: sentenceController,
-                        maxLength: 100,
-                        minLines: 10,
-                        maxLines: 10,
-                        decoration: InputDecoration(
-                          hintText: localeManager.translate(
-                            'AddWordFieldAddSentences',
-                          ),
-                          hintStyle: TextStyle(color: AppPalette.whiteColor),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
@@ -226,94 +317,6 @@ class AddToPoolButton extends StatelessWidget {
         Text(
           localeManager.translate('AddTheWordButton'),
           style: AppTextTheme.addWordButtonText,
-        ),
-      ],
-    );
-  }
-}
-
-class InfoBox extends StatelessWidget {
-  final String header;
-  const InfoBox({super.key, required this.header});
-
-  @override
-  Widget build(BuildContext context) {
-    final localeManager = Provider.of<LocaleManager>(context);
-    return Container(
-      width: MediaQuery.of(context).size.width / 2 - 20,
-      height: 150,
-      decoration: BoxDecoration(
-        color: AppPalette.gradient3,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [BoxShadow(color: AppPalette.whiteColor, blurRadius: 4)],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-              flex: 2,
-              child: AutoSizeText(
-                header,
-                style: AppTextTheme.loraTextTheme.displayMedium,
-                maxLines: 1,
-                minFontSize: 16,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Flexible(
-              flex: 1,
-              child: ContentOfInfoBox(
-                header: localeManager.translate('InfoBoxLastAddedText'),
-                content: 'null',
-              ),
-            ),
-            const SizedBox(height: 8),
-            Flexible(
-              flex: 1,
-              child: ContentOfInfoBox(
-                header: localeManager.translate('InfoBoxCountOfWordsText'),
-                content: 'null',
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ContentOfInfoBox extends StatelessWidget {
-  final String header;
-  final String content;
-  const ContentOfInfoBox({
-    super.key,
-    required this.header,
-    required this.content,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        AutoSizeText(
-          header,
-          style: AppTextTheme.loraTextTheme.bodyLarge,
-          maxLines: 1,
-          minFontSize: 10,
-          overflow: TextOverflow.ellipsis,
-        ),
-        Expanded(
-          child: AutoSizeText(
-            content,
-            style: AppTextTheme.loraTextTheme.bodyMedium,
-            maxLines: 1,
-            minFontSize: 10,
-            overflow: TextOverflow.ellipsis,
-          ),
         ),
       ],
     );
