@@ -6,26 +6,26 @@ import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/theme/app_pallete.dart';
 import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/app_bar.dart';
-import 'package:piggy_bank/features/learning_process/presentation/widgets/listview_wordpool.dart';
+import 'package:piggy_bank/features/learning_process/presentation/widgets/listview_piggybank.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
-class WordPoolPage extends StatefulWidget {
+class PiggyBank extends StatefulWidget {
   final String id;
-  const WordPoolPage({super.key, required this.id});
+  const PiggyBank({super.key, required this.id});
 
   @override
-  State<WordPoolPage> createState() => _WordPoolPageState();
+  State<PiggyBank> createState() => _PiggyBankState();
 }
 
-class _WordPoolPageState extends State<WordPoolPage> {
+class _PiggyBankState extends State<PiggyBank> {
   final searchController = TextEditingController();
   String query = '';
 
   @override
   void initState() {
     context.read<LearningProcessBloc>().add(
-      LearningProcessFetchAllWords(processId: widget.id, isItLearned: false),
+      LearningProcessFetchAllWords(processId: widget.id, isItLearned: true),
     );
     super.initState();
   }
@@ -39,9 +39,10 @@ class _WordPoolPageState extends State<WordPoolPage> {
   @override
   Widget build(BuildContext context) {
     final localeManager = Provider.of<LocaleManager>(context);
-
     return Scaffold(
-      appBar: MyAppBar(title: localeManager.translate('InfoBoxWordPoolTitle')),
+      appBar: MyAppBar(
+        title: localeManager.translate('InfoBoxMyPiggyBankTitle'),
+      ),
       body: Container(
         color: AppPalette.backgroundColor,
         child: Padding(
@@ -66,19 +67,13 @@ class _WordPoolPageState extends State<WordPoolPage> {
               ),
               Expanded(
                 child: BlocConsumer<LearningProcessBloc, LearningProcessState>(
-                  listenWhen:
-                      (previous, current) =>
-                          current is DeletedWordSuccess ||
-                          current is AddedToPiggyBankSuccess,
+                  listenWhen: (previous, current) => current is DeletedWordSuccess,
                   listener: (context, state) {
                     if (state is DeletedWordSuccess) {
                       Navigator.of(context).pop();
-                    } else if (state is AddedToPiggyBankSuccess) {
-                      Navigator.of(context).pop();
                     }
                   },
-                  buildWhen:
-                      (previous, current) => current is FetchedAllWordsSuccess,
+                  buildWhen: (previous, current) => current is FetchedAllWordsSuccess,
                   builder: (context, state) {
                     switch (state) {
                       case LearningProcessLoading():
@@ -94,7 +89,7 @@ class _WordPoolPageState extends State<WordPoolPage> {
                                       .contains(query.toLowerCase()),
                                 )
                                 .toList();
-                        return ListviewWordpool(filteredWords: filteredWords);
+                        return ListviewPiggybank(filteredWords: filteredWords);
                       default:
                         return StatusMessage(
                           message: localeManager.translate(

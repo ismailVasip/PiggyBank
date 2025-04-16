@@ -8,6 +8,7 @@ import 'package:piggy_bank/core/theme/app_text_theme.dart';
 import 'package:piggy_bank/core/utils/capitalize_title.dart';
 import 'package:piggy_bank/core/utils/show_snackbar.dart';
 import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
+import 'package:piggy_bank/features/learning_process/presentation/pages/piggy_bank.dart';
 import 'package:piggy_bank/features/learning_process/presentation/pages/word_pool.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/add_to_pool_button.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/add_word_field.dart';
@@ -111,14 +112,26 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                               :final wordCount,
                             ):
                               return Expanded(
-                                child: InfoBox(
-                                  header: localeManager.translate(
-                                    'InfoBoxMyPiggyBankTitle',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (buildContext) =>
+                                                PiggyBank(id: widget.id),
+                                      ),
+                                    );
+                                  },
+                                  child: InfoBox(
+                                    header: localeManager.translate(
+                                      'InfoBoxMyPiggyBankTitle',
+                                    ),
+                                    lastAddedWord: lastAddedWord ?? '',
+                                    wordCount: wordCount.toString(),
+                                    colorCode: '0',
+                                    imagePath: piggyBankImagePath,
                                   ),
-                                  lastAddedWord: lastAddedWord ?? '',
-                                  wordCount: wordCount.toString(),
-                                  colorCode: '0',
-                                  imagePath: piggyBankImagePath,
                                 ),
                               );
                             default:

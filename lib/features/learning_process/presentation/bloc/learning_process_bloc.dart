@@ -113,10 +113,10 @@ class LearningProcessBloc
       add(
         LearningProcessFetchAllWords(
           processId: event.processId,
-          isItLearned: false,
+          isItLearned: event.isItLearned,
         ),
       );
-      add(LoadLearningProcessSummary(event.processId, false));
+      add(LoadLearningProcessSummary(event.processId, event.isItLearned));
     });
   }
 
@@ -133,7 +133,7 @@ class LearningProcessBloc
       add(
         LearningProcessFetchAllWords(
           processId: event.processId,
-          isItLearned: false,
+          isItLearned: event.isItLearned,
         ),
       );
       add(LoadLearningProcessSummary(event.processId, true));
