@@ -13,7 +13,11 @@ abstract interface class WordPoolRepo {
     required bool isItLearned
   });
 
-  Future<Either<Failure,List<WordPool>>> fetchAllWords(String learningProcessId);
+  Future<Either<Failure,List<WordPool>>> fetchAllWords(String learningProcessId,bool isItLearned);
 
   Future<Either<Failure,(String?,int)>> fetchLearningProcessSummary(String processId,bool isItLearned);
+
+  Future<Either<Failure,bool>> removeWord(String id);
+
+  Future<Either<Failure,bool>> addToPiggyBank(String id);
 }

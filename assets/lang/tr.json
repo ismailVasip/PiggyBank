@@ -23,5 +23,11 @@
   "SnackbarMessageAddedToWordPool":"Kelime Havuzuna eklendi!",
   "EmptyLearningProcessListText":"Daha başlamadın mı?",
   "DataLoadingText":"Veri yükleniyor...",
-  "UnexpectedSituationText":"Beklenmedik durum."
+  "UnexpectedSituationText":"Beklenmedik durum.",
+  "SearchText":"Ara...",
+  "DeleteTheWord":"Kelime silinsin mi?",
+  "Yes":"Evet",
+  "No":"Hayır",
+  "AddMyPiggyBankText":"Kumbarama eklensin mi?",
+  "NoWordAddedYetText":":/"
 }

@@ -5,12 +5,12 @@ import 'package:piggy_bank/features/learning_process/domain/entities/word_pool.d
 import 'package:piggy_bank/features/learning_process/domain/repositories/word_pool_repo.dart';
 
 class UploadToWordPool implements UseCase<WordPool, UploadToWordPoolParams> {
-  final WordPoolRepo wordPoolRepo;
-  UploadToWordPool(this.wordPoolRepo);
+  final WordPoolRepo _wordPoolRepo;
+  UploadToWordPool(this._wordPoolRepo);
 
   @override
   Future<Either<Failure, WordPool>> call(UploadToWordPoolParams params) async {
-    return await wordPoolRepo.uploadToWordPool(
+    return await _wordPoolRepo.uploadToWordPool(
       word: params.word,
       meaning: params.meaning,
       type: params.type,

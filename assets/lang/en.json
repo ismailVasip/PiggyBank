@@ -23,5 +23,11 @@
   "SnackbarMessageAddedToWordPool":"added to Word Pool!",
   "EmptyLearningProcessListText":"Haven't you started yet?",
   "DataLoadingText":"Data loading...",
-  "UnexpectedSituationText":"An unexpected error occurred!"
+  "UnexpectedSituationText":"An unexpected error occurred!",
+  "SearchText":"Search...",
+  "DeleteTheWord":"Should the word be deleted?",
+  "Yes":"Yes",
+  "No":"No",
+  "AddMyPiggyBankText":"Should it be added to my piggy bank?",
+  "NoWordAddedYetText":":/"
 }

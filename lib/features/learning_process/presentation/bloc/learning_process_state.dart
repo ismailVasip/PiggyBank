@@ -32,3 +32,13 @@ final class PiggyBankSummaryLoaded extends LearningProcessState {
     required this.wordCount,
   });
 }
+
+final class FetchedAllWordsSuccess extends LearningProcessState{
+  final List<WordPool> list;
+
+  FetchedAllWordsSuccess({required this.list});
+}
+
+final class DeletedWordSuccess extends LearningProcessState{}
+
+final class AddedToPiggyBankSuccess extends LearningProcessState{}

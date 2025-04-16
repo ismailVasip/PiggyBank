@@ -8,7 +8,10 @@ import 'package:piggy_bank/features/home/domain/repositories/learning_process_re
 import 'package:piggy_bank/features/learning_process/domain/repositories/word_pool_repo.dart';
 import 'package:piggy_bank/features/home/domain/usecases/create_learning_process.dart';
 import 'package:piggy_bank/features/home/domain/usecases/get_all_processes.dart';
+import 'package:piggy_bank/features/learning_process/domain/usecases/add_to_piggybank.dart';
+import 'package:piggy_bank/features/learning_process/domain/usecases/fetch_all_words.dart';
 import 'package:piggy_bank/features/learning_process/domain/usecases/fetch_summary.dart';
+import 'package:piggy_bank/features/learning_process/domain/usecases/remove_word.dart';
 import 'package:piggy_bank/features/learning_process/domain/usecases/upload_to_word_pool.dart';
 import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -36,10 +39,16 @@ void _initUploadToWordPool() {
     ..registerFactory<WordPoolRepo>(() => WordPoolRepoImp(serviceLocator()))
     ..registerFactory(() => UploadToWordPool(serviceLocator()))
     ..registerFactory(() => FetchSummary(serviceLocator()))
+    ..registerFactory(() => FetchAllWords(serviceLocator()))
+    ..registerFactory(() => RemoveWord(serviceLocator()))
+    ..registerFactory(() => AddToPiggyBank(serviceLocator()))
     ..registerLazySingleton(
       () => LearningProcessBloc(
         uploadToWordPool: serviceLocator(),
         fetchSummary: serviceLocator(),
+        fetchAllWords: serviceLocator(),
+        removeWord: serviceLocator(),
+        addToPiggyBank: serviceLocator()
       ),
     );
 }

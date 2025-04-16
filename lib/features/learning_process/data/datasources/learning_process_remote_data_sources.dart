@@ -4,11 +4,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class WordPoolRemoteDataSource {
   Future<WordPoolModel> uploadToWordPool(WordPoolModel wordPoolModel);
-  Future<List<WordPoolModel>> fetchAllWords(String id);
+  Future<List<WordPoolModel>> fetchAllWords(String id, bool isItLearned);
   Future<(String?, int)> fetchLearningProcessSummary(
     String processId,
     bool isItLearned,
   );
+  Future<bool> removeWord(String id);
+  Future<bool> addToPiggyBank(String id);
 }
 
 class WordPoolRemoteDataSourceImp implements WordPoolRemoteDataSource {
@@ -35,12 +37,14 @@ class WordPoolRemoteDataSourceImp implements WordPoolRemoteDataSource {
   }
 
   @override
-  Future<List<WordPoolModel>> fetchAllWords(String id) async {
+  Future<List<WordPoolModel>> fetchAllWords(String id, bool isItLearned) async {
     try {
       final res = await supabaseClient
           .from('wordpool')
           .select()
-          .eq('learning_process_id', id);
+          .eq('learning_process_id', id)
+          .eq('is_it_learned', isItLearned)
+          .order('updated_at', ascending: false);
 
       return res.map((word) => WordPoolModel.fromJson(word)).toList();
     } on PostgrestException catch (e) {
@@ -82,5 +86,39 @@ class WordPoolRemoteDataSourceImp implements WordPoolRemoteDataSource {
     } catch (e) {
       throw ServerException(e.toString());
     }
+  }
+
+  @override
+  Future<bool> removeWord(String id) async {
+    try {
+      final response = await supabaseClient
+          .from('wordpool')
+          .delete()
+          .eq('id', id)
+          .select('id');
+
+      return response.first.isNotEmpty;
+      
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+  
+  @override
+  Future<bool> addToPiggyBank(String id) async{
+    try{
+      final response = await supabaseClient.from('wordpool').update({'is_it_learned':true}).eq('id', id).select('id');
+
+      return response.isNotEmpty;
+
+
+    } on PostgrestException catch(e){
+      throw ServerException(e.message);
+    } catch(e){
+      throw ServerException(e.toString());
+    }
+    
   }
 }

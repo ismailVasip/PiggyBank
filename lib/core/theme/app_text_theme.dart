@@ -29,7 +29,7 @@ class AppTextTheme {
       fontFamily: 'Lora',
       fontSize: 24,
       shadows: [Shadow(color: AppPalette.whiteColor,blurRadius: 4)],
-      color: AppPalette.gradient2
+      color: AppPalette.yellow,
     );
   }
   static TextStyle get learningProcessTitleText {

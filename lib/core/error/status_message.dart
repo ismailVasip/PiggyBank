@@ -10,7 +10,7 @@ class StatusMessage extends StatelessWidget {
     return Center(
       child: Text(
         message,
-        style: TextStyle(color: AppPalette.whiteColor, fontSize: 17),
+        style: TextStyle(color: AppPalette.whiteColor, fontSize: 14),
       ),
     );
   }

@@ -47,10 +47,12 @@ class WordPoolRepoImp implements WordPoolRepo {
   @override
   Future<Either<Failure, List<WordPool>>> fetchAllWords(
     String learningProcessId,
+    bool isItLearned
   ) async {
     try {
       final allWords = await wordPoolRemoteDataSource.fetchAllWords(
         learningProcessId,
+        isItLearned
       );
 
       return right(allWords);
@@ -72,6 +74,30 @@ class WordPoolRepoImp implements WordPoolRepo {
 
       return right(sumResult);
     } on ServerException catch (e) {
+      throw left(Failure(e.message));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, bool>> removeWord(String id)async {
+    try{
+      final result = await wordPoolRemoteDataSource.removeWord(id);
+
+      return right(result);
+
+    }on ServerException catch (e) {
+      throw left(Failure(e.message));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, bool>> addToPiggyBank(String id) async{
+    try{
+      final result = await wordPoolRemoteDataSource.addToPiggyBank(id);
+
+      return right(result);
+
+    }on ServerException catch(e){
       throw left(Failure(e.message));
     }
   }

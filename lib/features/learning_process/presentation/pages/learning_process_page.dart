@@ -8,6 +8,9 @@ import 'package:piggy_bank/core/theme/app_text_theme.dart';
 import 'package:piggy_bank/core/utils/capitalize_title.dart';
 import 'package:piggy_bank/core/utils/show_snackbar.dart';
 import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
+import 'package:piggy_bank/features/learning_process/presentation/pages/word_pool.dart';
+import 'package:piggy_bank/features/learning_process/presentation/widgets/add_to_pool_button.dart';
+import 'package:piggy_bank/features/learning_process/presentation/widgets/add_word_field.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/info_box.dart';
 import 'package:provider/provider.dart';
 
@@ -119,9 +122,11 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                                 ),
                               );
                             default:
-                              return StatusMessage(
-                                message: localeManager.translate(
-                                  'UnexpectedSituationText',
+                              return Expanded(
+                                child: StatusMessage(
+                                  message: localeManager.translate(
+                                    'UnexpectedSituationText',
+                                  ),
                                 ),
                               );
                           }
@@ -146,20 +151,34 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                               :final wordCount,
                             ):
                               return Expanded(
-                                child: InfoBox(
-                                  header: localeManager.translate(
-                                    'InfoBoxWordPoolTitle',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (buildContext) =>
+                                                WordPoolPage(id: widget.id),
+                                      ),
+                                    );
+                                  },
+                                  child: InfoBox(
+                                    header: localeManager.translate(
+                                      'InfoBoxWordPoolTitle',
+                                    ),
+                                    lastAddedWord: lastAddedWord ?? '',
+                                    wordCount: wordCount.toString(),
+                                    colorCode: '1',
+                                    imagePath: wordPoolImagePath,
                                   ),
-                                  lastAddedWord: lastAddedWord ?? '',
-                                  wordCount: wordCount.toString(),
-                                  colorCode: '1',
-                                  imagePath: wordPoolImagePath,
                                 ),
                               );
                             default:
-                              return StatusMessage(
-                                message: localeManager.translate(
-                                  'UnexpectedSituationText',
+                              return Expanded(
+                                child: StatusMessage(
+                                  message: localeManager.translate(
+                                    'UnexpectedSituationText',
+                                  ),
                                 ),
                               );
                           }
@@ -181,65 +200,83 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                         );
                       }
                     },
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<LearningProcessBloc>().add(
-                                LearningProcessWordAdded(
-                                  word: wordController.text.trim(),
-                                  meaning: meaningController.text.trim(),
-                                  type: typeController.text.trim(),
-                                  synonym: synonymController.text.trim(),
-                                  sentence: sentenceController.text.trim(),
-                                  learningProcessId: widget.id,
-                                  isItLearned: false,
-                                ),
-                              );
-                              formKey.currentState!.reset();
-                            }
-                          },
-                          child: AddToPoolButton(localeManager: localeManager),
-                        ),
-                        const SizedBox(height: 24),
-                        AddWordField(
-                          necessaryText: localeManager.translate(
-                            'AddWordFieldNecessaryText1',
-                          ),
-                          optionalText: localeManager.translate(
-                            'AddWordFieldOptionalText1',
-                          ),
-                          localeManager: localeManager,
-                          necessaryTextcontroller: wordController,
-                          optionalTextcontroller: typeController,
-                        ),
-                        const SizedBox(height: 14),
-                        AddWordField(
-                          necessaryText: localeManager.translate(
-                            'AddWordFieldNecessaryText2',
-                          ),
-                          optionalText: localeManager.translate(
-                            'AddWordFieldOptionalText2',
-                          ),
-                          localeManager: localeManager,
-                          necessaryTextcontroller: meaningController,
-                          optionalTextcontroller: synonymController,
-                        ),
-                        const SizedBox(height: 24),
-                        TextFormField(
-                          controller: sentenceController,
-                          maxLength: 100,
-                          minLines: 10,
-                          maxLines: 10,
-                          decoration: InputDecoration(
-                            hintText: localeManager.translate(
-                              'AddWordFieldAddSentences',
+                    child: Material(
+                      color: AppPalette.secondaryBackgroundColor,
+                      shadowColor: AppPalette.whiteColor,
+                      elevation: 8,
+                      borderRadius: BorderRadius.circular(16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (formKey.currentState!.validate()) {
+                                  context.read<LearningProcessBloc>().add(
+                                    LearningProcessWordAdded(
+                                      word: wordController.text.trim(),
+                                      meaning: meaningController.text.trim(),
+                                      type: typeController.text.trim(),
+                                      synonym: synonymController.text.trim(),
+                                      sentence: sentenceController.text.trim(),
+                                      learningProcessId: widget.id,
+                                      isItLearned: false,
+                                    ),
+                                  );
+                                  formKey.currentState!.reset();
+                                }
+                              },
+                              child: AddToPoolButton(
+                                localeManager: localeManager,
+                              ),
                             ),
-                            hintStyle: TextStyle(color: AppPalette.whiteColor),
-                          ),
+                            const SizedBox(height: 24),
+                            AddWordField(
+                              necessaryText: localeManager.translate(
+                                'AddWordFieldNecessaryText1',
+                              ),
+                              optionalText: localeManager.translate(
+                                'AddWordFieldOptionalText1',
+                              ),
+                              localeManager: localeManager,
+                              necessaryTextcontroller: wordController,
+                              optionalTextcontroller: typeController,
+                              myMaxLength: (45, 15),
+                            ),
+                            const SizedBox(height: 14),
+                            AddWordField(
+                              necessaryText: localeManager.translate(
+                                'AddWordFieldNecessaryText2',
+                              ),
+                              optionalText: localeManager.translate(
+                                'AddWordFieldOptionalText2',
+                              ),
+                              localeManager: localeManager,
+                              necessaryTextcontroller: meaningController,
+                              optionalTextcontroller: synonymController,
+                              myMaxLength: (45, 45),
+                            ),
+                            const SizedBox(height: 24),
+                            TextFormField(
+                              controller: sentenceController,
+                              maxLength: 100,
+                              minLines: 10,
+                              maxLines: 10,
+                              decoration: InputDecoration(
+                                hintText: localeManager.translate(
+                                  'AddWordFieldAddSentences',
+                                ),
+                                counterStyle: TextStyle(
+                                  color: AppPalette.warningColor,
+                                ),
+                                hintStyle: TextStyle(
+                                  color: AppPalette.whiteColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
@@ -248,77 +285,6 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class AddWordField extends StatelessWidget {
-  final String necessaryText;
-  final String optionalText;
-  final LocaleManager localeManager;
-  final TextEditingController necessaryTextcontroller;
-  final TextEditingController optionalTextcontroller;
-  const AddWordField({
-    super.key,
-    required this.necessaryText,
-    required this.optionalText,
-    required this.localeManager,
-    required this.necessaryTextcontroller,
-    required this.optionalTextcontroller,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: necessaryTextcontroller,
-            decoration: InputDecoration(
-              hintText: necessaryText,
-              hintStyle: TextStyle(color: AppPalette.whiteColor),
-            ),
-            validator: (value) {
-              if (value!.trim().isEmpty) {
-                return localeManager.translate('AddWordErrorMessage');
-              }
-              return null;
-            },
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: TextFormField(
-            controller: optionalTextcontroller,
-            decoration: InputDecoration(
-              hintText: optionalText,
-              hintStyle: TextStyle(color: AppPalette.whiteColor),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class AddToPoolButton extends StatelessWidget {
-  const AddToPoolButton({super.key, required this.localeManager});
-  final LocaleManager localeManager;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      spacing: 6,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(Icons.add_task, color: AppPalette.gradient2, size: 24),
-        Text(
-          localeManager.translate('AddTheWordButton'),
-          style: AppTextTheme.addWordButtonText,
-        ),
-      ],
     );
   }
 }

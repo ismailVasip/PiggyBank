@@ -3,11 +3,11 @@ import 'package:piggy_bank/core/theme/app_pallete.dart';
 import 'package:piggy_bank/core/theme/app_text_theme.dart';
 
 class AppTheme {
-  static _border([Color color = AppPalette.cardBorderColor]) => OutlineInputBorder(
+  static _border([Color color = AppPalette.whiteColor]) => OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
       borderSide: BorderSide(
           color: color,
-          width: 3
+          width: 2
       )
   );
   static final themeMode = ThemeData.light().copyWith(

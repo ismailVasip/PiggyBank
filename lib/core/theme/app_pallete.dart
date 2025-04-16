@@ -46,4 +46,5 @@ class AppPalette {
 
   // **Şeffaf Renkler**
   static const Color transparentColor = Colors.transparent;
+  static const Color yellow = Colors.yellowAccent;
 }

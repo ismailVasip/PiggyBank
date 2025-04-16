@@ -11,13 +11,14 @@ class FetchAllWords implements UseCase<List<WordPool>,FetchAllWordsParams>{
   
   @override
   Future<Either<Failure, List<WordPool>>> call(FetchAllWordsParams params) async{
-    return await _wordPoolRepo.fetchAllWords(params.learningProcessId);
+    return await _wordPoolRepo.fetchAllWords(params.learningProcessId,params.isItLearned);
   }
 }
 
 class FetchAllWordsParams{
   final String learningProcessId;
+  final bool isItLearned;
 
-  FetchAllWordsParams({required this.learningProcessId});
+  FetchAllWordsParams({required this.learningProcessId,required this.isItLearned});
 
 }

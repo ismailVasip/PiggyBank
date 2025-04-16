@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder: (context, index) {
                                         return ListItem(
                                           title: learningProcesses[index].title,
-                                          id:learningProcesses[index].id
+                                          id: learningProcesses[index].id,
                                         );
                                       },
                                     );
@@ -195,6 +195,20 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(color: AppPalette.blackColor),
               decoration: InputDecoration(
                 hintText: localeManager.translate('addProcessFieldHintText'),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: AppPalette.blackColor,
+                    width: 2,
+                  ),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: AppPalette.errorColor,
+                    width: 2,
+                  ),
+                ),
               ),
               controller: fieldController,
               validator: (value) {
