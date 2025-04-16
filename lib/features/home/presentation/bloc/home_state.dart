@@ -24,3 +24,11 @@ final class HomeFetchProcessesLoadFailure extends HomeState{
 
   HomeFetchProcessesLoadFailure({required this.error});
 }
+
+final class HomeDeleteProcessLoadFailure extends HomeState{
+  final String error;
+
+  HomeDeleteProcessLoadFailure({required this.error});
+}
+
+final class HomeDeleteProcessLoadSuccess extends HomeState{}

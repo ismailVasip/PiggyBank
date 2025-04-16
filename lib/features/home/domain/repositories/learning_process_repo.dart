@@ -8,4 +8,6 @@ abstract interface class LearningProcessRepo{
   });
 
   Future<Either<Failure,List<LearningProcess>>> getAllProcesses();
+
+  Future<Either<Failure,bool>> deleteProcess(String processId);
 }

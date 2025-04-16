@@ -9,3 +9,9 @@ final class HomeLearningProcessCreated extends HomeEvent{
 }
 
 final class HomeAllProcessesFetched extends HomeEvent{}
+
+final class HomeProcessDeleted extends HomeEvent{
+  final String id;
+
+  HomeProcessDeleted({required this.id});
+}

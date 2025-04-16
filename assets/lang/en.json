@@ -29,5 +29,6 @@
   "Yes":"Yes",
   "No":"No",
   "AddMyPiggyBankText":"Should it be added to my piggy bank?",
-  "NoWordAddedYetText":":/"
+  "NoWordAddedYetText":":/",
+  "DeleteProcess":"Do you want delete it?"
 }

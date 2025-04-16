@@ -67,11 +67,17 @@ class _HomePageState extends State<HomePage> {
           listenWhen:
               (previous, current) =>
                   current is HomeCreateProcessLoadSuccess ||
-                  current is HomeCreateProcessLoadFailure,
+                  current is HomeCreateProcessLoadFailure ||
+                  current is HomeDeleteProcessLoadFailure ||
+                  current is HomeDeleteProcessLoadSuccess,
           listener: (context, state) {
             if (state is HomeCreateProcessLoadSuccess) {
               Navigator.of(context).pop();
             } else if (state is HomeCreateProcessLoadFailure) {
+              showSnackBar(context, state.error);
+            } else if(state is HomeDeleteProcessLoadSuccess){
+              Navigator.of(context).pop();
+            } else if(state is HomeDeleteProcessLoadFailure){
               showSnackBar(context, state.error);
             }
           },

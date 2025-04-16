@@ -29,5 +29,6 @@
   "Yes":"Evet",
   "No":"Hayır",
   "AddMyPiggyBankText":"Kumbarama eklensin mi?",
-  "NoWordAddedYetText":":/"
+  "NoWordAddedYetText":":/",
+  "DeleteProcess":"Silmek istiyor musun?"
 }

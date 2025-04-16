@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:piggy_bank/features/home/data/datasources/create_learning_process_remote_date_source.dart';
+import 'package:piggy_bank/features/home/domain/usecases/delete_process.dart';
 import 'package:piggy_bank/features/home/presentation/bloc/home_bloc.dart';
 import 'package:piggy_bank/features/learning_process/data/datasources/learning_process_remote_data_sources.dart';
 import 'package:piggy_bank/features/home/data/repositories/learning_process_repo_imp.dart';
@@ -63,10 +64,12 @@ void _initCreateLearningProcess() {
     )
     ..registerFactory(() => CreateLearningProcess(serviceLocator()))
     ..registerFactory(() => GetAllProcesses(serviceLocator()))
+    ..registerFactory(() => DeleteProcess(serviceLocator()))
     ..registerLazySingleton(
       () => HomeBloc(
         createLearningProcess: serviceLocator(),
         getAllProcesses: serviceLocator(),
+        deleteProcess: serviceLocator()
       ),
     );
 }

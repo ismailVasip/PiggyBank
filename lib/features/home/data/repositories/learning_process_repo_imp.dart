@@ -42,4 +42,16 @@ class LearningProcessRepoImp implements LearningProcessRepo {
     return left(Failure(e.message));
    }
   }
+  
+  @override
+  Future<Either<Failure, bool>> deleteProcess(String processId)async {
+    try{
+      final result = await learningProcessRemoteDataSource.deleteProcess(processId);
+
+      return right(result);
+
+    }on ServerException catch(e){
+    return left(Failure(e.message));
+   }
+  }
 }
