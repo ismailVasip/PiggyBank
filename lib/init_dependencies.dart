@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:piggy_bank/core/network/connection_checker.dart';
 import 'package:piggy_bank/features/home/data/datasources/create_learning_process_remote_date_source.dart';
 import 'package:piggy_bank/features/home/domain/usecases/delete_process.dart';
 import 'package:piggy_bank/features/home/presentation/bloc/home_bloc.dart';
@@ -29,7 +31,11 @@ Future<void> initDependencies() async {
     anonKey: AppSecret.supabaseAnonKey,
   );
 
+  serviceLocator.registerFactory(() => InternetConnection());
+
   serviceLocator.registerLazySingleton(() => supabase.client);
+
+  serviceLocator.registerFactory<ConnectionChecker>(() => ConnectionCheckerImp(serviceLocator()));
 }
 
 void _initUploadToWordPool() {
@@ -60,7 +66,7 @@ void _initCreateLearningProcess() {
       () => CreateLearningProcessRemoteDateSourceImp(serviceLocator()),
     )
     ..registerFactory<LearningProcessRepo>(
-      () => LearningProcessRepoImp(serviceLocator()),
+      () => LearningProcessRepoImp(serviceLocator(),serviceLocator()),
     )
     ..registerFactory(() => CreateLearningProcess(serviceLocator()))
     ..registerFactory(() => GetAllProcesses(serviceLocator()))

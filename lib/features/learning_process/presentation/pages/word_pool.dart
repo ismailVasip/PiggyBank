@@ -42,70 +42,72 @@ class _WordPoolPageState extends State<WordPoolPage> {
 
     return Scaffold(
       appBar: MyAppBar(title: localeManager.translate('InfoBoxWordPoolTitle')),
-      body: Container(
-        color: AppPalette.backgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              MySearchBar(
-                controller: searchController,
-                query: query,
-                onChanged: (value) {
-                  setState(() {
-                    query = value;
-                  });
-                },
-                onClear: () {
-                  searchController.clear();
-                  setState(() {
-                    query = '';
-                  });
-                },
-                hintText: localeManager.translate('SearchText'),
-              ),
-              Expanded(
-                child: BlocConsumer<LearningProcessBloc, LearningProcessState>(
-                  listenWhen:
-                      (previous, current) =>
-                          current is DeletedWordSuccess ||
-                          current is AddedToPiggyBankSuccess,
-                  listener: (context, state) {
-                    if (state is DeletedWordSuccess) {
-                      Navigator.of(context).pop();
-                    } else if (state is AddedToPiggyBankSuccess) {
-                      Navigator.of(context).pop();
-                    }
+      body: Scrollbar(
+        child: Container(
+          color: AppPalette.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                MySearchBar(
+                  controller: searchController,
+                  query: query,
+                  onChanged: (value) {
+                    setState(() {
+                      query = value;
+                    });
                   },
-                  buildWhen:
-                      (previous, current) => current is FetchedAllWordsSuccess,
-                  builder: (context, state) {
-                    switch (state) {
-                      case LearningProcessLoading():
-                        return Expanded(
-                          child: SizedBox(height: 150, child: const Loader()),
-                        );
-                      case FetchedAllWordsSuccess(:final list):
-                        final filteredWords =
-                            list
-                                .where(
-                                  (wordModel) => wordModel.word
-                                      .toLowerCase()
-                                      .contains(query.toLowerCase()),
-                                )
-                                .toList();
-                        return ListviewWordpool(filteredWords: filteredWords);
-                      default:
-                        return StatusMessage(
-                          message: localeManager.translate(
-                            'UnexpectedSituationText',
-                          ),
-                        );
-                    }
+                  onClear: () {
+                    searchController.clear();
+                    setState(() {
+                      query = '';
+                    });
                   },
+                  hintText: localeManager.translate('SearchText'),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: BlocConsumer<LearningProcessBloc, LearningProcessState>(
+                    listenWhen:
+                        (previous, current) =>
+                            current is DeletedWordSuccess ||
+                            current is AddedToPiggyBankSuccess,
+                    listener: (context, state) {
+                      if (state is DeletedWordSuccess) {
+                        Navigator.of(context).pop();
+                      } else if (state is AddedToPiggyBankSuccess) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    buildWhen:
+                        (previous, current) => current is FetchedAllWordsSuccess,
+                    builder: (context, state) {
+                      switch (state) {
+                        case LearningProcessLoading():
+                          return Expanded(
+                            child: SizedBox(height: 150, child: const Loader()),
+                          );
+                        case FetchedAllWordsSuccess(:final list):
+                          final filteredWords =
+                              list
+                                  .where(
+                                    (wordModel) => wordModel.word
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase()),
+                                  )
+                                  .toList();
+                          return ListviewWordpool(filteredWords: filteredWords);
+                        default:
+                          return StatusMessage(
+                            message: localeManager.translate(
+                              'UnexpectedSituationText',
+                            ),
+                          );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

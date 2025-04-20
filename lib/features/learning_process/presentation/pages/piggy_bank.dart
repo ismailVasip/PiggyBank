@@ -43,64 +43,66 @@ class _PiggyBankState extends State<PiggyBank> {
       appBar: MyAppBar(
         title: localeManager.translate('InfoBoxMyPiggyBankTitle'),
       ),
-      body: Container(
-        color: AppPalette.backgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              MySearchBar(
-                controller: searchController,
-                query: query,
-                onChanged: (value) {
-                  setState(() {
-                    query = value;
-                  });
-                },
-                onClear: () {
-                  searchController.clear();
-                  setState(() {
-                    query = '';
-                  });
-                },
-                hintText: localeManager.translate('SearchText'),
-              ),
-              Expanded(
-                child: BlocConsumer<LearningProcessBloc, LearningProcessState>(
-                  listenWhen: (previous, current) => current is DeletedWordSuccess,
-                  listener: (context, state) {
-                    if (state is DeletedWordSuccess) {
-                      Navigator.of(context).pop();
-                    }
+      body: Scrollbar(
+        child: Container(
+          color: AppPalette.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                MySearchBar(
+                  controller: searchController,
+                  query: query,
+                  onChanged: (value) {
+                    setState(() {
+                      query = value;
+                    });
                   },
-                  buildWhen: (previous, current) => current is FetchedAllWordsSuccess,
-                  builder: (context, state) {
-                    switch (state) {
-                      case LearningProcessLoading():
-                        return Expanded(
-                          child: SizedBox(height: 150, child: const Loader()),
-                        );
-                      case FetchedAllWordsSuccess(:final list):
-                        final filteredWords =
-                            list
-                                .where(
-                                  (wordModel) => wordModel.word
-                                      .toLowerCase()
-                                      .contains(query.toLowerCase()),
-                                )
-                                .toList();
-                        return ListviewPiggybank(filteredWords: filteredWords);
-                      default:
-                        return StatusMessage(
-                          message: localeManager.translate(
-                            'UnexpectedSituationText',
-                          ),
-                        );
-                    }
+                  onClear: () {
+                    searchController.clear();
+                    setState(() {
+                      query = '';
+                    });
                   },
+                  hintText: localeManager.translate('SearchText'),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: BlocConsumer<LearningProcessBloc, LearningProcessState>(
+                    listenWhen: (previous, current) => current is DeletedWordSuccess,
+                    listener: (context, state) {
+                      if (state is DeletedWordSuccess) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    buildWhen: (previous, current) => current is FetchedAllWordsSuccess,
+                    builder: (context, state) {
+                      switch (state) {
+                        case LearningProcessLoading():
+                          return Expanded(
+                            child: SizedBox(height: 150, child: const Loader()),
+                          );
+                        case FetchedAllWordsSuccess(:final list):
+                          final filteredWords =
+                              list
+                                  .where(
+                                    (wordModel) => wordModel.word
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase()),
+                                  )
+                                  .toList();
+                          return ListviewPiggybank(filteredWords: filteredWords);
+                        default:
+                          return StatusMessage(
+                            message: localeManager.translate(
+                              'UnexpectedSituationText',
+                            ),
+                          );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
