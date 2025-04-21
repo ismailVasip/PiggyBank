@@ -20,7 +20,7 @@
   "AddWordFieldOptionalText2":"Synonym",
   "AddWordFieldAddSentences" : "Sentence writing area",
   "AddWordErrorMessage":"This field is required!",
-  "SnackbarMessageAddedToWordPool":"added to Word Pool!",
+  "SnackbarMessageAddedToWordPool":"Added to Word Pool!",
   "EmptyLearningProcessListText":"Haven't you started yet?",
   "DataLoadingText":"Data loading...",
   "UnexpectedSituationText":"An unexpected error occurred!",
