@@ -1,9 +1,14 @@
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/network/connection_checker.dart';
+import 'package:piggy_bank/features/home/data/datasources/create_learning_process_locale_datesource.dart';
 import 'package:piggy_bank/features/home/data/datasources/create_learning_process_remote_date_source.dart';
 import 'package:piggy_bank/features/home/domain/usecases/delete_process.dart';
 import 'package:piggy_bank/features/home/presentation/bloc/home_bloc.dart';
+import 'package:piggy_bank/features/learning_process/data/datasources/learning_process_locale_data_source.dart';
 import 'package:piggy_bank/features/learning_process/data/datasources/learning_process_remote_data_sources.dart';
 import 'package:piggy_bank/features/home/data/repositories/learning_process_repo_imp.dart';
 import 'package:piggy_bank/features/learning_process/data/repositories/word_pool_repo_imp.dart';
@@ -31,11 +36,30 @@ Future<void> initDependencies() async {
     anonKey: AppSecret.supabaseAnonKey,
   );
 
+  Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: 'LearningProcess'),
+    instanceName: 'LearningProcess',
+  );
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: 'WordPool'),
+    instanceName: 'WordPool',
+  );
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: 'PiggyBank'),
+    instanceName: 'PiggyBank',
+  );
+
   serviceLocator.registerFactory(() => InternetConnection());
 
   serviceLocator.registerLazySingleton(() => supabase.client);
 
-  serviceLocator.registerFactory<ConnectionChecker>(() => ConnectionCheckerImp(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => LocaleManager());
+
+  serviceLocator.registerFactory<ConnectionChecker>(
+    () => ConnectionCheckerImp(serviceLocator()),
+  );
 }
 
 void _initUploadToWordPool() {
@@ -43,7 +67,20 @@ void _initUploadToWordPool() {
     ..registerFactory<WordPoolRemoteDataSource>(
       () => WordPoolRemoteDataSourceImp(serviceLocator()),
     )
-    ..registerFactory<WordPoolRepo>(() => WordPoolRepoImp(serviceLocator()))
+    ..registerFactory<LearningProcessLocaleDataSource>(
+      () => LearningProcessLocaleDataSourceImp(
+        serviceLocator<Box>(instanceName: 'PiggyBank'),
+        serviceLocator<Box>(instanceName: 'WordPool'),
+      ),
+    )
+    ..registerFactory<WordPoolRepo>(
+      () => WordPoolRepoImp(
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ),
+    )
     ..registerFactory(() => UploadToWordPool(serviceLocator()))
     ..registerFactory(() => FetchSummary(serviceLocator()))
     ..registerFactory(() => FetchAllWords(serviceLocator()))
@@ -55,7 +92,7 @@ void _initUploadToWordPool() {
         fetchSummary: serviceLocator(),
         fetchAllWords: serviceLocator(),
         removeWord: serviceLocator(),
-        addToPiggyBank: serviceLocator()
+        addToPiggyBank: serviceLocator(),
       ),
     );
 }
@@ -65,8 +102,18 @@ void _initCreateLearningProcess() {
     ..registerFactory<CreateLearningProcessRemoteDateSource>(
       () => CreateLearningProcessRemoteDateSourceImp(serviceLocator()),
     )
+    ..registerFactory<HomeLocalDataSource>(
+      () => HomeLocalDataSourceImp(
+        serviceLocator<Box>(instanceName: 'LearningProcess'),
+      ),
+    )
     ..registerFactory<LearningProcessRepo>(
-      () => LearningProcessRepoImp(serviceLocator(),serviceLocator()),
+      () => LearningProcessRepoImp(
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ),
     )
     ..registerFactory(() => CreateLearningProcess(serviceLocator()))
     ..registerFactory(() => GetAllProcesses(serviceLocator()))
@@ -75,7 +122,7 @@ void _initCreateLearningProcess() {
       () => HomeBloc(
         createLearningProcess: serviceLocator(),
         getAllProcesses: serviceLocator(),
-        deleteProcess: serviceLocator()
+        deleteProcess: serviceLocator(),
       ),
     );
 }

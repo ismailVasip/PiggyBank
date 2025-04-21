@@ -120,6 +120,7 @@ class _ListviewPiggybankState extends State<ListviewPiggybank> {
                     isItLearned: currentWord.isItLearned,
                   ),
                 );
+                Navigator.of(context).pop();
               },
             ),
           ],

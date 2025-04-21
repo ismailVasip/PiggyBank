@@ -29,6 +29,11 @@
   "Yes":"Yes",
   "No":"No",
   "AddMyPiggyBankText":"Should it be added to my piggy bank?",
+  "TheWordAddedToPiggyBankText":"Added to My Piggy Bank!",
   "NoWordAddedYetText":":/",
-  "DeleteProcess":"Do you want delete it?"
+  "DeleteProcess":"Do you want delete it?",
+  "LearningProcessCreatedText":"Learning process created successfully!",
+  "LearningProcessDeletedText":"Learning process deleted successfully!",
+  "TheWordDeletedText":"The word deleted successfully!",
+  "NoInternetConnectionText":"No internet connection!"
 }

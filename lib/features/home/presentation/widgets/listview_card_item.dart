@@ -106,6 +106,7 @@ Future<dynamic> deleteWordDialog(
             text: localeManager.translate(localeManager.translate('Yes')),
             onPressed: () {
               context.read<HomeBloc>().add(HomeProcessDeleted(id: id));
+              Navigator.of(context).pop();
             },
           ),
         ],

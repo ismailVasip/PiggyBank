@@ -41,7 +41,7 @@ class LearningProcessBloc
     LearningProcessWordAdded event,
     Emitter<LearningProcessState> emit,
   ) async {
-    emit(LearningProcessLoading());
+    //emit(LearningProcessLoading());
     final result = await _uploadToWordPool(
       UploadToWordPoolParams(
         word: event.word,
@@ -54,8 +54,8 @@ class LearningProcessBloc
       ),
     );
 
-    result.fold((l) => emit(LearningProcessFailure(l.toString())), (r) {
-      emit(LearningProcessSuccess(r));
+    result.fold((l) => emit(AddedToWordPoolFailure(l.toString())), (r) {
+      emit(AddedToWordPoolSuccess(r));
       add(
         LoadLearningProcessSummary(event.learningProcessId, event.isItLearned),
       );
@@ -66,7 +66,7 @@ class LearningProcessBloc
     LoadLearningProcessSummary event,
     Emitter<LearningProcessState> emit,
   ) async {
-    emit(LearningProcessLoading());
+    //emit(LearningProcessLoading());
     final sumResult = await _fetchSummary(
       FetchSummaryParams(
         processId: event.processId,
@@ -74,11 +74,18 @@ class LearningProcessBloc
       ),
     );
 
-    sumResult.fold((l) => emit(LearningProcessFailure(l.toString())), (r) {
-      if (!event.isItLearned) {
-        emit(WordPoolSummaryLoaded(lastAddedWord: r.$1, wordCount: r.$2));
+    sumResult.fold((l) => {
+      if(!event.isItLearned){
+        emit(WordPoolSummaryLoadedFailure(l.toString()))
       } else {
-        emit(PiggyBankSummaryLoaded(lastAddedWord: r.$1, wordCount: r.$2));
+        emit(PiggyBankSummaryLoadedFailure(l.toString()))
+      }
+      
+    }, (r) {
+      if (!event.isItLearned) {
+        emit(WordPoolSummaryLoadedSuccess(lastAddedWord: r.$1, wordCount: r.$2));
+      } else {
+        emit(PiggyBankSummaryLoadedSuccess(lastAddedWord: r.$1, wordCount: r.$2));
       }
     });
   }
@@ -96,7 +103,7 @@ class LearningProcessBloc
     );
 
     list.fold(
-      (l) => emit(LearningProcessFailure(l.toString())),
+      (l) => emit(FetchedAllWordsFailure(l.toString())),
       (r) => emit(FetchedAllWordsSuccess(list: r)),
     );
   }
@@ -105,10 +112,10 @@ class LearningProcessBloc
     LearningProcessDeleteWord event,
     Emitter<LearningProcessState> emit,
   ) async {
-    emit(LearningProcessLoading());
+    //emit(LearningProcessLoading());
     final res = await _removeWord(RemoveWordParams(id: event.wordId));
 
-    res.fold((l) => emit(LearningProcessFailure(l.toString())), (r) {
+    res.fold((l) => emit(DeletedWordFailure(l.toString())), (r) {
       emit(DeletedWordSuccess());
       add(
         LearningProcessFetchAllWords(
@@ -124,11 +131,11 @@ class LearningProcessBloc
     LearningProcessAddToPiggyBank event,
     Emitter<LearningProcessState> emit,
   ) async {
-    emit(LearningProcessLoading());
+    //emit(LearningProcessLoading());
 
     final res = await _addToPiggyBank(AddToPiggyBankParams(id: event.wordId));
 
-    res.fold((l) => emit(LearningProcessFailure(l.toString())), (r) {
+    res.fold((l) => emit(AddedToPiggyBankFailure(l.toString())), (r) {
       emit(AddedToPiggyBankSuccess());
       add(
         LearningProcessFetchAllWords(

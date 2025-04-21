@@ -29,6 +29,11 @@
   "Yes":"Evet",
   "No":"Hayır",
   "AddMyPiggyBankText":"Kumbarama eklensin mi?",
+  "TheWordAddedToPiggyBankText":"Kelime kumbaramaya eklendi!",
   "NoWordAddedYetText":":/",
-  "DeleteProcess":"Silmek istiyor musun?"
+  "DeleteProcess":"Silmek istiyor musun?",
+  "LearningProcessCreatedText":"Süreç başarıyla oluşturuldu!",
+  "LearningProcessDeletedText":"Süreç başarıyla silindi!",
+  "TheWordDeletedText":"Kelime başarıyla silindi!",
+  "NoInternetConnectionText":"İnternet bağlantısı yok!"
 }

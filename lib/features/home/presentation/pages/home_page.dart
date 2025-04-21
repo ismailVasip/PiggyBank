@@ -72,12 +72,18 @@ class _HomePageState extends State<HomePage> {
                   current is HomeDeleteProcessLoadSuccess,
           listener: (context, state) {
             if (state is HomeCreateProcessLoadSuccess) {
-              Navigator.of(context).pop();
+              showSnackBar(
+                context,
+                localeManager.translate('LearningProcessCreatedText'),
+              );
             } else if (state is HomeCreateProcessLoadFailure) {
               showSnackBar(context, state.error);
-            } else if(state is HomeDeleteProcessLoadSuccess){
-              Navigator.of(context).pop();
-            } else if(state is HomeDeleteProcessLoadFailure){
+            } else if (state is HomeDeleteProcessLoadSuccess) {
+              showSnackBar(
+                context,
+                localeManager.translate('LearningProcessDeletedText'),
+              );
+            } else if (state is HomeDeleteProcessLoadFailure) {
               showSnackBar(context, state.error);
             }
           },
@@ -122,6 +128,12 @@ class _HomePageState extends State<HomePage> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: BlocBuilder<HomeBloc, HomeState>(
+                          buildWhen:
+                              (previous, current) =>
+                                  current is HomeFetchProcessesLoadSuccess ||
+                                  current is HomeFetchProcessesLoadFailure ||
+                                  current is HomeLoadInProgress ||
+                                  current is HomeInitial,
                           builder: (context, state) {
                             switch (state) {
                               case HomeInitial():
@@ -241,6 +253,7 @@ class _HomePageState extends State<HomePage> {
                       title: fieldController.text.trim(),
                     ),
                   );
+                  Navigator.of(context).pop();
                 }
               },
             ),

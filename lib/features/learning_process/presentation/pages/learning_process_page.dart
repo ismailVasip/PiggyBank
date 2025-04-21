@@ -97,17 +97,18 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                       BlocBuilder<LearningProcessBloc, LearningProcessState>(
                         buildWhen:
                             (previous, current) =>
-                                current is PiggyBankSummaryLoaded,
+                                current is PiggyBankSummaryLoadedSuccess ||
+                                current is PiggyBankSummaryLoadedFailure ||
+                                current is LearningProcessInitial,
                         builder: (context, state) {
                           switch (state) {
-                            case LearningProcessLoading():
+                            case LearningProcessInitial():
                               return Expanded(
-                                child: SizedBox(
-                                  height: 150,
-                                  child: const Loader(),
+                                child: Center(
+                                  child: Loader(),
                                 ),
                               );
-                            case PiggyBankSummaryLoaded(
+                            case PiggyBankSummaryLoadedSuccess(
                               :final lastAddedWord,
                               :final wordCount,
                             ):
@@ -134,6 +135,9 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                                   ),
                                 ),
                               );
+
+                            case PiggyBankSummaryLoadedFailure(:final error):
+                              return StatusMessage(message: error);
                             default:
                               return Expanded(
                                 child: StatusMessage(
@@ -149,17 +153,18 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                       BlocBuilder<LearningProcessBloc, LearningProcessState>(
                         buildWhen:
                             (previous, current) =>
-                                current is WordPoolSummaryLoaded,
+                                current is WordPoolSummaryLoadedSuccess ||
+                                current is WordPoolSummaryLoadedFailure ||
+                                current is LearningProcessInitial,
                         builder: (context, state) {
                           switch (state) {
-                            case LearningProcessLoading():
+                            case LearningProcessInitial():
                               return Expanded(
-                                child: SizedBox(
-                                  height: 150,
-                                  child: const Loader(),
+                                child: Center(
+                                  child: Loader(),
                                 ),
                               );
-                            case WordPoolSummaryLoaded(
+                            case WordPoolSummaryLoadedSuccess(
                               :final lastAddedWord,
                               :final wordCount,
                             ):
@@ -186,6 +191,9 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                                   ),
                                 ),
                               );
+                            case WordPoolSummaryLoadedFailure(:final error):
+                              return StatusMessage(message: error);
+
                             default:
                               return Expanded(
                                 child: StatusMessage(
@@ -202,9 +210,9 @@ class _LearningProcessPageState extends State<LearningProcessPage> {
                   const SizedBox(height: 24),
                   BlocListener<LearningProcessBloc, LearningProcessState>(
                     listener: (context, state) {
-                      if (state is LearningProcessFailure) {
+                      if (state is AddedToWordPoolFailure) {
                         showSnackBar(context, state.error);
-                      } else if (state is LearningProcessSuccess) {
+                      } else if (state is AddedToWordPoolSuccess) {
                         showSnackBar(
                           context,
                           localeManager.translate(

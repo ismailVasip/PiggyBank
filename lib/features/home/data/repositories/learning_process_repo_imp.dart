@@ -1,7 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:piggy_bank/core/error/exceptions.dart';
 import 'package:piggy_bank/core/error/failures.dart';
+import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/network/connection_checker.dart';
+import 'package:piggy_bank/features/home/data/datasources/create_learning_process_locale_datesource.dart';
 import 'package:piggy_bank/features/home/data/datasources/create_learning_process_remote_date_source.dart';
 import 'package:piggy_bank/features/home/data/models/learning_process_model.dart';
 import 'package:piggy_bank/features/home/domain/entities/learning_process.dart';
@@ -11,9 +13,13 @@ import 'package:uuid/uuid.dart';
 class LearningProcessRepoImp implements LearningProcessRepo {
   final CreateLearningProcessRemoteDateSource learningProcessRemoteDataSource;
   final ConnectionChecker connectionChecker;
+  final HomeLocalDataSource homeLocalDataSource;
+  final LocaleManager localeManager;
   LearningProcessRepoImp(
     this.learningProcessRemoteDataSource,
     this.connectionChecker,
+    this.homeLocalDataSource,
+    this.localeManager
   );
 
   @override
@@ -24,7 +30,7 @@ class LearningProcessRepoImp implements LearningProcessRepo {
       if (!await (connectionChecker.isConnected)) {
         return left(
           Failure(
-            'No internet connection. Please check your network connection.',
+            localeManager.translate('NoInternetConnectionText'),
           ),
         );
       }
@@ -48,14 +54,13 @@ class LearningProcessRepoImp implements LearningProcessRepo {
   Future<Either<Failure, List<LearningProcess>>> getAllProcesses() async {
     try {
       if (!await (connectionChecker.isConnected)) {
-        return left(
-          Failure(
-            'No internet connection. Please check your network connection.',
-          ),
-        );
+        final processes = homeLocalDataSource.loadLocalLProcesses();
+        return right(processes);
       }
       final allProcesses =
           await learningProcessRemoteDataSource.getAllProcesses();
+
+      homeLocalDataSource.uploadLocalLProcesses(processes:allProcesses);
 
       return right(allProcesses);
     } on ServerException catch (e) {
@@ -69,7 +74,7 @@ class LearningProcessRepoImp implements LearningProcessRepo {
       if (!await (connectionChecker.isConnected)) {
         return left(
           Failure(
-            'No internet connection. Please check your network connection.',
+            localeManager.translate('NoInternetConnectionText'),
           ),
         );
       }

@@ -4,6 +4,7 @@ import 'package:piggy_bank/core/common/widgets/loader.dart';
 import 'package:piggy_bank/core/error/status_message.dart';
 import 'package:piggy_bank/core/localization/locale_manager.dart';
 import 'package:piggy_bank/core/theme/app_pallete.dart';
+import 'package:piggy_bank/core/utils/show_snackbar.dart';
 import 'package:piggy_bank/features/learning_process/presentation/bloc/learning_process_bloc.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/app_bar.dart';
 import 'package:piggy_bank/features/learning_process/presentation/widgets/listview_wordpool.dart';
@@ -66,26 +67,49 @@ class _WordPoolPageState extends State<WordPoolPage> {
                   hintText: localeManager.translate('SearchText'),
                 ),
                 Expanded(
-                  child: BlocConsumer<LearningProcessBloc, LearningProcessState>(
+                  child: BlocConsumer<
+                    LearningProcessBloc,
+                    LearningProcessState
+                  >(
                     listenWhen:
                         (previous, current) =>
                             current is DeletedWordSuccess ||
-                            current is AddedToPiggyBankSuccess,
+                            current is DeletedWordFailure ||
+                            current is AddedToPiggyBankSuccess ||
+                            current is AddedToPiggyBankFailure,
                     listener: (context, state) {
                       if (state is DeletedWordSuccess) {
-                        Navigator.of(context).pop();
+                        showSnackBar(
+                          context,
+                          localeManager.translate('TheWordDeletedText'),
+                        );
                       } else if (state is AddedToPiggyBankSuccess) {
-                        Navigator.of(context).pop();
+                        showSnackBar(
+                          context,
+                          localeManager.translate(
+                            'TheWordAddedToPiggyBankText',
+                          ),
+                        );
+                      } else if (state is DeletedWordFailure) {
+                        showSnackBar(context, state.error);
+                      } else if (state is AddedToPiggyBankFailure) {
+                        showSnackBar(context, state.error);
                       }
                     },
                     buildWhen:
-                        (previous, current) => current is FetchedAllWordsSuccess,
+                        (previous, current) =>
+                            current is FetchedAllWordsSuccess ||
+                            current is LearningProcessLoading ||
+                            current is FetchedAllWordsFailure ||
+                            current is LearningProcessInitial,
                     builder: (context, state) {
                       switch (state) {
-                        case LearningProcessLoading():
-                          return Expanded(
-                            child: SizedBox(height: 150, child: const Loader()),
+                        case LearningProcessInitial():
+                          return StatusMessage(
+                            message: localeManager.translate('DataLoadingText'),
                           );
+                        case LearningProcessLoading():
+                          return const Loader();
                         case FetchedAllWordsSuccess(:final list):
                           final filteredWords =
                               list
@@ -96,6 +120,8 @@ class _WordPoolPageState extends State<WordPoolPage> {
                                   )
                                   .toList();
                           return ListviewWordpool(filteredWords: filteredWords);
+                        case FetchedAllWordsFailure(:final error):
+                          return StatusMessage(message: error);
                         default:
                           return StatusMessage(
                             message: localeManager.translate(

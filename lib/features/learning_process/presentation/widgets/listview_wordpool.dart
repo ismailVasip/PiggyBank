@@ -126,6 +126,7 @@ class _MyWidgetState extends State<ListviewWordpool> {
                     isItLearned: currentWord.isItLearned,
                   ),
                 );
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -168,6 +169,7 @@ class _MyWidgetState extends State<ListviewWordpool> {
                     isItLearned: currentWord.isItLearned,
                   ),
                 );
+                Navigator.of(context).pop();
               },
             ),
           ],
