@@ -4,7 +4,7 @@
 
 ### 🎩 Proje Videosu
 
-Uygulamanın tanıtım videosunu [buraya ekleyin](#).
+Uygulamanın tanıtım videosunu https://drive.google.com/file/d/1xkblZxt6_2Qgge6SANHkRbRnDRfruQq0/view?usp=sharing.
 
 ---
 
